@@ -14,6 +14,7 @@ GameObject:
   - component: {fileID: 1219784402364737716}
   - component: {fileID: 631152437498078018}
   - component: {fileID: 7280342951587968345}
+  - component: {fileID: 3438928692648728249}
   m_Layer: 0
   m_Name: letterOBJ
   m_TagString: Untagged
@@ -74,8 +75,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   moveable: 1
-  isLetter: 1
-  isFly: 0
 --- !u!212 &1219784402364737716
 SpriteRenderer:
   m_ObjectHideFlags: 0
@@ -152,5 +151,22 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 4c7219e9c16fa1445963c1f9816beca5, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  word1: 
-  word2: 
+  isFly: 0
+  isLocked: 0
+  horizontal: []
+  vertical: []
+  horizontalWord: 
+  verticalWord: 
+--- !u!114 &3438928692648728249
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 510886092524711809}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e0e8a0e2a2034f842b73be00b3924064, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  currentLetterStatus: 0

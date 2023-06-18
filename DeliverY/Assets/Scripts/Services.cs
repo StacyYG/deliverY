@@ -27,4 +27,16 @@ public static class Services
         }
         set => _players = value;
     }
+
+    private static LevelStatus _levelStatus;
+
+    public static LevelStatus LevelStatus
+    {
+        get
+        {
+            return _levelStatus;
+        }
+        set => _levelStatus = value;
+    }
 }
+

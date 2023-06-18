@@ -1,17 +1,21 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
+using System.Linq;
 using UnityEngine;
 
 public class PlayerControl : MonoBehaviour
 {
-    private Block _block;
+    Block _playerBlock;
+    Letter _playerLetter;
     float w, a, s, d, z;
+    List<Letter> _lettersOnBoard;
     
     // Start is called before the first frame update
     void Start()
     {
-        _block = GetComponent<Block>();
-        
+        _playerBlock = GetComponent<Block>();
+        _playerLetter = GetComponent<Letter>();
+        _lettersOnBoard = FindObjectsOfType<Letter>().ToList();
     }
 
     // Update is called once per frame
@@ -20,8 +24,15 @@ public class PlayerControl : MonoBehaviour
         var direction = GetUpInput() + GetDownInput() + GetLeftInput() + GetRightInput();
         if (direction != Vector3.zero)
         {
-            if (_block.TryMove(direction)) 
+            if (_playerBlock.TryMove(direction))
+            {
+                foreach (var letter in _lettersOnBoard)
+                {
+                    letter.MakeWord();
+                }
+
                 GameManager.SaveGameState();
+            }
         }
 
         if (GetInputZ())

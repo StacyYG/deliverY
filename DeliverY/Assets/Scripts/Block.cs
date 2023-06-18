@@ -5,14 +5,12 @@ using UnityEngine;
 
 public class Block : MonoBehaviour
 { 
-    public bool moveable = true, isLetter = true;
-
-    private Letter _letter;
+    public bool moveable = true;
+    
     // Start is called before the first frame update
     void Start()
     {
-        if (isLetter)
-            _letter = GetComponent<Letter>();
+        
     }
 
     // Update is called once per frame
@@ -25,8 +23,6 @@ public class Block : MonoBehaviour
     void Move(Vector2 direction)
     {
         transform.position += (Vector3)direction;
-        if (isLetter)
-            _letter.StartCoroutine(_letter.UpdateWord());
     }
 
     public bool TryMove(Vector3 direction)
@@ -46,7 +42,7 @@ public class Block : MonoBehaviour
         
         return false;
     }
-    public Collider2D GetColliderAt(Vector3 position)
+    Collider2D GetColliderAt(Vector3 position)
     {
         RaycastHit2D hit;
         hit = Physics2D.CircleCast(position, .3f, Vector2.zero);

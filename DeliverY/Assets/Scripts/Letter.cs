@@ -4,65 +4,38 @@ using UnityEngine;
 
 public class Letter : MonoBehaviour
 {
-    public string word1, word2;
+    public bool isFly, isLocked;
 
-    public bool isFly;
-
-    private CheckWord _checkWord;
+    CheckWord _checkWord;
+    Block _block;
+    public List<Letter> horizontal, vertical;
+    public string horizontalWord, verticalWord;
     
     // Start is called before the first frame update
     void Start()
     {
-        word1 = word2 = gameObject.name;
+        _block = GetComponent<Block>();
         MakeWord();
     }
 
     // Update is called once per frame
     void Update()
     {
-        MakeWord();
-        if (GameManager.overallCurrentWordStatus != WordStatus.Flying)
+        if (isLocked)
         {
-            isFly = false;
+            _block.moveable = false;
         }
     }
-    void MakeWord()
-    {
-        var left = GetLetterAt(transform.position + Vector3.left);
-        var up = GetLetterAt(transform.position + Vector3.up);
-        if (left)
-        {
-            word1 = left.word1 + gameObject.name;
-        }
-        else
-        {
-            word1 = gameObject.name;
-        }
 
-        if (up)
-        {
-            word2 = up.word2 + gameObject.name;
-        }
-        else
-        {
-            word2 = gameObject.name;
-        }
-
-    }
-    public Collider2D GetColliderAt(Vector3 position)
+    Collider2D GetColliderAt(Vector3 position)
     {
         RaycastHit2D hit;
         hit = Physics2D.CircleCast(position, .3f, Vector2.zero);
 
         return hit.collider;
     }
-    public IEnumerator UpdateWord()
-    {
-        yield return new WaitForFixedUpdate();
-        MakeWord();
-    }
-
-    public Letter GetLetterAt(Vector3 position)
+    
+    Letter GetLetterAt(Vector3 position)
     {
         Letter letterToReturn;
         var collider = GetColliderAt(position);
@@ -76,15 +49,68 @@ public class Letter : MonoBehaviour
         return null;
     }
 
-    public Letter GetLeftLetter(List<Letter> letters)
+    void GetLettersInDirection(List<Letter> letters, Vector3 direction)
     {
-        Letter leftLetter = GetLetterAt(transform.position + Vector3.left);
-        if (leftLetter)
+        Letter letter = GetLetterAt(transform.position + direction);
+        if (letter)
         {
-            letters.Add(leftLetter);
-            leftLetter.GetLeftLetter(letters);
+            letters.Add(letter);
+            letter.GetLettersInDirection(letters, direction);
         }
-
-        return leftLetter;
     }
+    
+    public void MakeWord()
+    {
+        horizontal = new List<Letter>();
+        vertical = new List<Letter>();
+        
+        var horizontalBefore = new List<Letter>();
+        var horizontalAfter = new List<Letter>();
+        var verticalBefore = new List<Letter>();
+        var verticalAfter = new List<Letter>();
+        
+        horizontalWord = "";
+        verticalWord = "";
+        
+        GetLettersInDirection(horizontalBefore, Vector3.left);
+        GetLettersInDirection(horizontalAfter, Vector3.right);
+        GetLettersInDirection(verticalBefore, Vector3.up);
+        GetLettersInDirection(verticalAfter, Vector3.down);
+
+        for (int i = 0; i < horizontalBefore.Count; i++)
+        {
+            horizontalWord = horizontalWord.Insert(0, horizontalBefore[i].name);
+            horizontal.Add(horizontalBefore[i]);
+        }
+        horizontalWord += name;
+        horizontal.Add(this);
+        for (int i = 0; i < horizontalAfter.Count; i++)
+        {
+            horizontalWord += horizontalAfter[i].name;
+            horizontal.Add(horizontalAfter[i]);
+        }
+        
+        for (int i = 0; i < verticalBefore.Count; i++)
+        {
+            verticalWord = verticalWord.Insert(0, verticalBefore[i].name);
+            vertical.Add(verticalBefore[i]);
+        }   
+        verticalWord += name;
+        vertical.Add(this);
+        for (int i = 0; i < verticalAfter.Count; i++)
+        {
+            verticalWord += verticalAfter[i].name;
+            vertical.Add(verticalAfter[i]);
+        }
+    }
+}
+
+public enum LetterStatus
+{
+    Nothing, Flying, Locked
+}
+
+public enum LevelStatus
+{
+    Nothing, StartFirstLevel, Replay, Victory
 }

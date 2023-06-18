@@ -3,22 +3,26 @@ using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 
 public class GameManager : MonoBehaviour
 {
     public static List<GameState> savedStates;
-    public static float inputInterval = 0.25f;
-    public static WordStatus overallCurrentWordStatus = WordStatus.Nothing;
+    public static float inputInterval = 0.18f;
+    public static LetterStatus overallCurrentLetterStatus = LetterStatus.Nothing;
     private void Awake()
     {
         Services.EventManager = new EventManager();
         Services.Players = FindObjectsOfType<PlayerControl>().ToList();
         
+        //automatically sync letter colliders whenever Transform.Position change, important for checking words during the same frame
+        Physics2D.autoSyncTransforms = true;
     }
 
     // Start is called before the first frame update
     void Start()
     {
+        Services.LevelStatus = LevelStatus.Nothing;
         savedStates = new List<GameState>();
         SaveGameState();
     }
@@ -26,7 +30,20 @@ public class GameManager : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        //overallCurrentWordStatus = GetOverallWordStatus();
+        if (Services.LevelStatus == LevelStatus.StartFirstLevel)
+        {
+            SceneManager.LoadScene(1);
+        }
+
+        if (Services.LevelStatus == LevelStatus.Replay)
+        {
+            SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex);
+        }
+
+        if (Services.LevelStatus == LevelStatus.Victory)
+        {
+            SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex + 1);
+        }
     }
 
     public static void SaveGameState()
@@ -43,16 +60,16 @@ public class GameManager : MonoBehaviour
         }
     }
 
-    public WordStatus GetOverallWordStatus()
+    public LetterStatus GetOverallWordStatus()
     {
         for (int i = 0; i < Services.Players.Count; i++)
         {
-            if (Services.Players[i].GetComponent<CheckWord>().currentWordStatus==WordStatus.Flying)
+            if (Services.Players[i].GetComponent<CheckWord>().currentLetterStatus==LetterStatus.Flying)
             {
-                return WordStatus.Flying;
+                return LetterStatus.Flying;
             }
         }
 
-        return WordStatus.Nothing;
+        return LetterStatus.Nothing;
     }
 }
