@@ -10,6 +10,8 @@ public class GameManager : MonoBehaviour
     public static List<GameState> savedStates;
     public static float inputInterval = 0.18f;
     public static LetterStatus overallCurrentLetterStatus = LetterStatus.Nothing;
+    public Animator transition;
+    public float transitionTime = 1f;
 
     [SerializeField] private GameObject bg;
     [SerializeField] private float duration = 0.8f;
@@ -69,19 +71,8 @@ public class GameManager : MonoBehaviour
 
     private IEnumerator PlayAnimationAndLoadNextLevel()
     {
-        float time = 0f;
-        while (time < duration)
-        {
-            time += Time.deltaTime;
-            float t = time / duration;
-
-            t = Mathf.SmoothStep(0f, 1f, t);
-
-            bg.GetComponent<Transform>().localScale = Vector3.Lerp(startScale, endScale, t);
-
-            yield return null;
-        }
-        bg.GetComponent<Transform>().localScale = endScale;
+        transition.SetTrigger("start");
+        yield return new WaitForSeconds(transitionTime);
         
         int currentSceneIndex = SceneManager.GetActiveScene().buildIndex;
         SceneManager.LoadScene(currentSceneIndex + 1);
