@@ -7,14 +7,14 @@ public class Letter : MonoBehaviour
     public bool isFly, isLocked;
 
     CheckWord _checkWord;
-    Block _block;
+    public Block block;
     public List<Letter> horizontal, vertical;
     public string horizontalWord, verticalWord;
     
     // Start is called before the first frame update
     void Start()
     {
-        _block = GetComponent<Block>();
+        block = GetComponent<Block>();
         MakeWord();
     }
 
@@ -23,7 +23,7 @@ public class Letter : MonoBehaviour
     {
         if (isLocked)
         {
-            _block.moveable = false;
+            block.moveable = false;
         }
     }
 

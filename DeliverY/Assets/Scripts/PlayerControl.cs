@@ -1,38 +1,63 @@
-﻿using System.Collections;
+﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
 
 public class PlayerControl : MonoBehaviour
 {
+    public Sprite[] frames;
+    public float fps = 6f;
+
+    private SpriteRenderer _sr;
+    private float _timer;
+    private int _index;
+
     Block _playerBlock;
     Letter _playerLetter;
     float w, a, s, d, z;
     List<Letter> _lettersOnBoard;
-    
+    bool _isMoving = false;
+
     // Start is called before the first frame update
     void Start()
     {
         _playerBlock = GetComponent<Block>();
         _playerLetter = GetComponent<Letter>();
         _lettersOnBoard = FindObjectsOfType<Letter>().ToList();
+        _sr = GetComponent<SpriteRenderer>();
     }
 
     // Update is called once per frame
     void Update()
     {
         var direction = GetUpInput() + GetDownInput() + GetLeftInput() + GetRightInput();
-        if (direction != Vector3.zero)
+        if (direction != Vector3.zero && !_isMoving)
         {
+            _isMoving = true;
+            _sr.sprite = frames[3];
             if (_playerBlock.TryMove(direction))
             {
                 foreach (var letter in _lettersOnBoard)
                 {
                     letter.MakeWord();
                 }
-
                 GameManager.SaveGameState();
             }
+
+        }
+        else if(direction == Vector3.zero)
+        {
+            _isMoving = false;
+            _timer += Time.deltaTime;
+
+            if (_timer >= 1f / fps)
+            {
+                _timer = 0f;
+                _index = (_index + 1) % 3; // 只循环前3帧
+                _sr.sprite = frames[_index];
+            }
+            
         }
 
         if (GetInputZ())

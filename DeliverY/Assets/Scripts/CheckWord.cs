@@ -8,7 +8,7 @@ public class CheckWord : MonoBehaviour
 {
     public LetterStatus currentLetterStatus;
     Letter _letter;
-    
+    bool isLocked = false;
     
     // Start is called before the first frame update
     void Start()
@@ -43,46 +43,55 @@ public class CheckWord : MonoBehaviour
         
         if (_letter.horizontalWord=="YOU" || _letter.verticalWord=="YOU")
         {
+            // DO SOMETHING ELSE HERE
             GameObject.Find("BG").GetComponent<SpriteRenderer>().color =  Color.Lerp(Color.white, new Color(0.5f,0.9f,1f,1f), Mathf.PingPong(Time.time, 1));
+            return;
         }
 
-        if (_letter.horizontalWord=="LOCK")
+        bool isLockWord= (_letter.horizontalWord == "LOCK" || _letter.verticalWord == "LOCK");
+        if (isLockWord && !isLocked)
         {
-            foreach (var letter in _letter.horizontal)
-            {
-                letter.isLocked = true;
-            }
+            _letter.block.moveable = false;
+            _letter.GetComponent<SpriteRenderer>().color = Color.gray;
+            isLocked = true;
         }
-        
-        // if (_letter.word1=="KEY" || _letter.word2=="KEY")
-        // {
-        //     
-        //     return;
-        // }
-        // if (_letter.word1 == "FLY")
-        // {
-        //     currentWordStatus = WordStatus.Flying;
-        //     Letter lastLetter = _letter.GetLetterAt(transform.position + 4 * Vector3.left);
-        //     if (lastLetter)
-        //     {
-        //         lettersToFly = new List<Letter>();
-        //         lettersToFly.Add(lastLetter);
-        //         lastLetter.GetLeftLetter(lettersToFly);
-        //         
-        //         foreach (var letter in lettersToFly)
-        //         {
-        //             letter.isFly = true;
-        //         }
-        //     }
-        // }
+        else if (!isLockWord && isLocked) 
+        {
+            _letter.block.moveable = true;
+            _letter.GetComponent<SpriteRenderer>().color = Color.white;
+            isLocked = false;
+        }
+
+
+        if (_letter.horizontalWord == "KEY" || _letter.verticalWord == "KEY")
+        {
+
+            return;
+        }
+        //if (_letter.horizontalWord == "FLY" || _letter.verticalWord == "FLY")
+        //{
+        //    currentWordStatus = WordStatus.Flying;
+        //    Letter lastLetter = _letter.GetLetterAt(transform.position + 4 * Vector3.left);
+        //    if (lastLetter)
+        //    {
+        //        lettersToFly = new List<Letter>();
+        //        lettersToFly.Add(lastLetter);
+        //        lastLetter.GetLeftLetter(lettersToFly);
+
+        //        foreach (var letter in lettersToFly)
+        //        {
+        //            letter.isFly = true;
+        //        }
+        //    }
+        //}
         // else
         // {
         //     currentWordStatus = WordStatus.Nothing;
         //     lettersToFly = new List<Letter>();
         //     
         // }
-        
-        
+
+
     }
     
 }

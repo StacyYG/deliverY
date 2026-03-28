@@ -16,7 +16,6 @@ GameObject:
   - component: {fileID: 6358846154643524725}
   - component: {fileID: 8015540249131205491}
   - component: {fileID: 6467356468768809792}
-  - component: {fileID: -681666466229651017}
   m_Layer: 0
   m_Name: Y
   m_TagString: Player
@@ -110,6 +109,12 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 350198eb50994f94192f54c0d9de9181, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  frames:
+  - {fileID: 7724637177843482086, guid: c75a2dfa14608e847ba4b4a9460b96f0, type: 3}
+  - {fileID: -6303375466705245585, guid: 20cc9c565aa1e624b9122bbf863814cb, type: 3}
+  - {fileID: -6711687311523542760, guid: 4c9d72d35bc7aee4683e0d5828c710e6, type: 3}
+  - {fileID: -4611548527515728504, guid: 454cb3f4e4b382743bde1d1b0b842d1f, type: 3}
+  fps: 6
 --- !u!114 &7651406426354151532
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -211,24 +216,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   isFly: 0
   isLocked: 0
+  block: {fileID: 0}
   horizontal: []
   vertical: []
   horizontalWord: 
   verticalWord: 
---- !u!114 &-681666466229651017
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 5365756171519098002}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 277a788ca04d76b40baa2214c68a57be, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: Assembly-CSharp::LetterAnim
-  frames:
-  - {fileID: 7724637177843482086, guid: c75a2dfa14608e847ba4b4a9460b96f0, type: 3}
-  - {fileID: 1565297587558022531, guid: 70566185c624e43489a8739357c07bbb, type: 3}
-  - {fileID: -6711687311523542760, guid: 4c9d72d35bc7aee4683e0d5828c710e6, type: 3}
-  fps: 6
