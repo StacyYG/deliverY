@@ -18,7 +18,7 @@ GameObject:
   - component: {fileID: 6467356468768809792}
   - component: {fileID: -681666466229651017}
   m_Layer: 0
-  m_Name: Y
+  m_Name: Y move
   m_TagString: Player
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -77,7 +77,7 @@ BoxCollider2D:
   m_SpriteTilingProperty:
     border: {x: 0, y: 0, z: 0, w: 0}
     pivot: {x: 0.5, y: 0.5}
-    oldSize: {x: 0.86153847, y: 0.86923075}
+    oldSize: {x: 0.8671875, y: 0.9140625}
     newSize: {x: 1, y: 1}
     adaptiveTilingThreshold: 0.5
     drawMode: 0
@@ -172,7 +172,7 @@ SpriteRenderer:
   m_SortingLayer: 0
   m_SortingOrder: 1
   m_MaskInteraction: 0
-  m_Sprite: {fileID: 7724637177843482086, guid: c75a2dfa14608e847ba4b4a9460b96f0,
+  m_Sprite: {fileID: -4611548527515728504, guid: 454cb3f4e4b382743bde1d1b0b842d1f,
     type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
@@ -229,6 +229,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::LetterAnim
   frames:
   - {fileID: 7724637177843482086, guid: c75a2dfa14608e847ba4b4a9460b96f0, type: 3}
-  - {fileID: 1565297587558022531, guid: 70566185c624e43489a8739357c07bbb, type: 3}
   - {fileID: -6711687311523542760, guid: 4c9d72d35bc7aee4683e0d5828c710e6, type: 3}
+  - {fileID: -4611548527515728504, guid: 454cb3f4e4b382743bde1d1b0b842d1f, type: 3}
   fps: 6
