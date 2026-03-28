@@ -10,6 +10,14 @@ public class GameManager : MonoBehaviour
     public static List<GameState> savedStates;
     public static float inputInterval = 0.18f;
     public static LetterStatus overallCurrentLetterStatus = LetterStatus.Nothing;
+
+    [SerializeField] private GameObject bg;
+    [SerializeField] private float duration = 0.8f;
+    [SerializeField] private Vector3 startScale = new Vector3(3.1f, 3.1f, 3.1f);
+    [SerializeField] private Vector3 endScale = new Vector3(0f, 0f, 0f);
+
+    private bool isLoading = false;
+
     private void Awake()
     {
         Services.EventManager = new EventManager();
@@ -17,6 +25,7 @@ public class GameManager : MonoBehaviour
         
         //automatically sync letter colliders whenever Transform.Position change, important for checking words during the same frame
         Physics2D.autoSyncTransforms = true;
+
     }
 
     // Start is called before the first frame update
@@ -25,6 +34,7 @@ public class GameManager : MonoBehaviour
         Services.LevelStatus = LevelStatus.Nothing;
         savedStates = new List<GameState>();
         SaveGameState();
+        bg.GetComponent<Transform>().localScale = startScale;
     }
 
     // Update is called once per frame
@@ -32,18 +42,69 @@ public class GameManager : MonoBehaviour
     {
         if (Services.LevelStatus == LevelStatus.StartFirstLevel)
         {
-            SceneManager.LoadScene(1);
+            if (!isLoading)
+            {
+                isLoading = true;
+                StartCoroutine(PlayAnimationAndLoadNextLevel());
+            }
         }
 
         if (Services.LevelStatus == LevelStatus.Replay)
         {
-            SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex);
+            if (!isLoading)
+            {
+                isLoading = true;
+                StartCoroutine(PlayAnimationAndReload());
+            }
         }
 
         if (Services.LevelStatus == LevelStatus.Victory)
         {
-            SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex + 1);
+            if (!isLoading) {
+                isLoading = true;
+                StartCoroutine(PlayAnimationAndLoadNextLevel());
+            }
         }
+    }
+
+    private IEnumerator PlayAnimationAndLoadNextLevel()
+    {
+        float time = 0f;
+        while (time < duration)
+        {
+            time += Time.deltaTime;
+            float t = time / duration;
+
+            t = Mathf.SmoothStep(0f, 1f, t);
+
+            bg.GetComponent<Transform>().localScale = Vector3.Lerp(startScale, endScale, t);
+
+            yield return null;
+        }
+        bg.GetComponent<Transform>().localScale = endScale;
+        
+        int currentSceneIndex = SceneManager.GetActiveScene().buildIndex;
+        SceneManager.LoadScene(currentSceneIndex + 1);
+    }
+
+    private IEnumerator PlayAnimationAndReload()
+    {
+        float time = 0f;
+        while (time < duration)
+        {
+            time += Time.deltaTime;
+            float t = time / duration;
+
+            t = Mathf.SmoothStep(0f, 1f, t);
+
+            bg.GetComponent<Transform>().localScale = Vector3.Lerp(startScale, endScale, t);
+
+            yield return null;
+        }
+        bg.GetComponent<Transform>().localScale = endScale;
+
+        int currentSceneIndex = SceneManager.GetActiveScene().buildIndex;
+        SceneManager.LoadScene(currentSceneIndex);
     }
 
     public static void SaveGameState()
