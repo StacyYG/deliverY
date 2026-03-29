@@ -15,7 +15,7 @@ public class PlayerControl : MonoBehaviour
 
     Block _playerBlock;
     Letter _playerLetter;
-    float w, a, s, d, z;
+    float w, a, s, d, z, r;
     List<Letter> _lettersOnBoard;
     bool _isMoving = false;
 
@@ -24,7 +24,7 @@ public class PlayerControl : MonoBehaviour
     {
         _playerBlock = GetComponent<Block>();
         _playerLetter = GetComponent<Letter>();
-        _lettersOnBoard = FindObjectsOfType<Letter>().ToList();
+        _lettersOnBoard = FindObjectsByType<Letter>().ToList();
         _sr = GetComponent<SpriteRenderer>();
     }
 
@@ -63,8 +63,15 @@ public class PlayerControl : MonoBehaviour
         if (GetInputZ())
         {
             GameManager.UndoMove();
+            foreach (var letter in _lettersOnBoard)
+            {
+                letter.MakeWord();
+            }
         }
-        
+        if (GetInputR())
+        {
+            Services.LevelStatus = LevelStatus.Replay;
+        }
     }
 
     bool GetInputZ()
@@ -88,7 +95,28 @@ public class PlayerControl : MonoBehaviour
         }
         return false;
     }
-    
+    bool GetInputR()
+    {
+        if (Input.GetKeyUp(KeyCode.R))
+        {
+            r = 0f;
+        }
+        if (Input.GetKeyDown(KeyCode.R))
+        {
+            return true;
+        }
+        if (Input.GetKey(KeyCode.R))
+        {
+            r += Time.deltaTime;
+            if (r > GameManager.inputInterval)
+            {
+                r = 0f;
+                return true;
+            }
+        }
+        return false;
+    }
+
     Vector3 GetUpInput()
     {
         if (Input.GetKeyUp(KeyCode.W) || Input.GetKeyUp(KeyCode.UpArrow))
