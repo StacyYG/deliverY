@@ -9,13 +9,11 @@ public class GameManager : MonoBehaviour
 {
     public static List<GameState> savedStates;
     public static float inputInterval = 0.18f;
-    public static LetterStatus overallCurrentLetterStatus = LetterStatus.Nothing;
     public Animator transition;
     public float transitionTime = 1f;
 
-    [SerializeField] private GameObject bg;
     [SerializeField] private float duration = 0.8f;
-    [SerializeField] private Vector3 startScale = new Vector3(3.1f, 3.1f, 3.1f);
+    [SerializeField] private Vector3 startScale = new Vector3(50f,50f, 1f);
     [SerializeField] private Vector3 endScale = new Vector3(0f, 0f, 0f);
 
     private bool isLoading = false;
@@ -23,7 +21,7 @@ public class GameManager : MonoBehaviour
     private void Awake()
     {
         Services.EventManager = new EventManager();
-        Services.Players = FindObjectsOfType<PlayerControl>().ToList();
+        Services.Players = FindObjectsByType<PlayerControl>().ToList();
         
         //automatically sync letter colliders whenever Transform.Position change, important for checking words during the same frame
         Physics2D.autoSyncTransforms = true;
@@ -36,7 +34,6 @@ public class GameManager : MonoBehaviour
         Services.LevelStatus = LevelStatus.Nothing;
         savedStates = new List<GameState>();
         SaveGameState();
-        bg.GetComponent<Transform>().localScale = startScale;
     }
 
     // Update is called once per frame
@@ -80,19 +77,8 @@ public class GameManager : MonoBehaviour
 
     private IEnumerator PlayAnimationAndReload()
     {
-        float time = 0f;
-        while (time < duration)
-        {
-            time += Time.deltaTime;
-            float t = time / duration;
-
-            t = Mathf.SmoothStep(0f, 1f, t);
-
-            bg.GetComponent<Transform>().localScale = Vector3.Lerp(startScale, endScale, t);
-
-            yield return null;
-        }
-        bg.GetComponent<Transform>().localScale = endScale;
+        transition.SetTrigger("start");
+        yield return new WaitForSeconds(transitionTime);
 
         int currentSceneIndex = SceneManager.GetActiveScene().buildIndex;
         SceneManager.LoadScene(currentSceneIndex);
@@ -112,16 +98,4 @@ public class GameManager : MonoBehaviour
         }
     }
 
-    public LetterStatus GetOverallWordStatus()
-    {
-        for (int i = 0; i < Services.Players.Count; i++)
-        {
-            if (Services.Players[i].GetComponent<CheckWord>().currentLetterStatus==LetterStatus.Flying)
-            {
-                return LetterStatus.Flying;
-            }
-        }
-
-        return LetterStatus.Nothing;
-    }
 }

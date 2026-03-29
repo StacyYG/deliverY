@@ -10,7 +10,7 @@ public class GameState
     public static GameState GetCurrentState()
     {
         GameState gameStateToSave = new GameState();
-        SavedElement[] elementsToSave = GameObject.FindObjectsOfType<SavedElement>();
+        SavedElement[] elementsToSave = GameObject.FindObjectsByType<SavedElement>();
         gameStateToSave.blockPositions = new List<Vector3>();
 
         for (int i = 0; i < elementsToSave.Length; i++)
@@ -24,7 +24,7 @@ public class GameState
 
     public void LoadGameState()
     {
-        SavedElement[] elementsToLoad = GameObject.FindObjectsOfType<SavedElement>();
+        SavedElement[] elementsToLoad = GameObject.FindObjectsByType<SavedElement>();
         foreach (var element in elementsToLoad)
         {
             element.transform.position = blockPositions[element.saveIndex];

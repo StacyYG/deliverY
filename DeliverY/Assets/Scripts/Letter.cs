@@ -4,27 +4,27 @@ using UnityEngine;
 
 public class Letter : MonoBehaviour
 {
-    public bool isFly, isLocked;
+    public string myLetter;
+    public LetterStatus status;
 
     CheckWord _checkWord;
     public Block block;
     public List<Letter> horizontal, vertical;
     public string horizontalWord, verticalWord;
     
+    
     // Start is called before the first frame update
     void Start()
     {
         block = GetComponent<Block>();
+        status = LetterStatus.NA;
         MakeWord();
     }
 
     // Update is called once per frame
     void Update()
     {
-        if (isLocked)
-        {
-            block.moveable = false;
-        }
+
     }
 
     Collider2D GetColliderAt(Vector3 position)
@@ -79,27 +79,27 @@ public class Letter : MonoBehaviour
 
         for (int i = 0; i < horizontalBefore.Count; i++)
         {
-            horizontalWord = horizontalWord.Insert(0, horizontalBefore[i].name);
+            horizontalWord = horizontalWord.Insert(0, horizontalBefore[i].myLetter);
             horizontal.Add(horizontalBefore[i]);
         }
-        horizontalWord += name;
+        horizontalWord += myLetter;
         horizontal.Add(this);
         for (int i = 0; i < horizontalAfter.Count; i++)
         {
-            horizontalWord += horizontalAfter[i].name;
+            horizontalWord += horizontalAfter[i].myLetter;
             horizontal.Add(horizontalAfter[i]);
         }
         
         for (int i = 0; i < verticalBefore.Count; i++)
         {
-            verticalWord = verticalWord.Insert(0, verticalBefore[i].name);
+            verticalWord = verticalWord.Insert(0, verticalBefore[i].myLetter);
             vertical.Add(verticalBefore[i]);
         }   
-        verticalWord += name;
+        verticalWord += myLetter;
         vertical.Add(this);
         for (int i = 0; i < verticalAfter.Count; i++)
         {
-            verticalWord += verticalAfter[i].name;
+            verticalWord += verticalAfter[i].myLetter;
             vertical.Add(verticalAfter[i]);
         }
     }
@@ -107,7 +107,7 @@ public class Letter : MonoBehaviour
 
 public enum LetterStatus
 {
-    Nothing, Flying, Locked
+    NA, Fly, Lock, Key
 }
 
 public enum LevelStatus

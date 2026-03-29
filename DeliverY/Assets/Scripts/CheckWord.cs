@@ -8,13 +8,13 @@ public class CheckWord : MonoBehaviour
 {
     public LetterStatus currentLetterStatus;
     Letter _letter;
-    bool isLocked = false;
+    private SpriteRenderer _sr;
     
     // Start is called before the first frame update
     void Start()
     {
         _letter = GetComponent<Letter>();
-        
+        _sr = GetComponent<SpriteRenderer>();
     }
 
     // Update is called once per frame
@@ -48,26 +48,53 @@ public class CheckWord : MonoBehaviour
             return;
         }
 
+        bool isKeyWord = (_letter.horizontalWord == "KEY" || _letter.verticalWord == "KEY");
+        if (isKeyWord && _letter.status!=LetterStatus.Key)
+        {
+            _sr.color = Color.yellow;
+            _letter.block.moveable = true;
+            _letter.status = LetterStatus.Key;
+        }
+        else if (!isKeyWord && _letter.status == LetterStatus.Key) 
+        { 
+            _sr.color = Color.white;
+            _letter.status = LetterStatus.NA;
+        }
+
         bool isLockWord= (_letter.horizontalWord == "LOCK" || _letter.verticalWord == "LOCK");
-        if (isLockWord && !isLocked)
+
+        bool canLock()
+        {
+            if(!isLockWord) return false;
+            foreach (Letter l in _letter.vertical)
+            {
+                if (l.status != LetterStatus.NA && l.status!=LetterStatus.Lock)
+                    return false;
+            }
+            foreach (Letter l in _letter.horizontal)
+            {
+                if (l.status != LetterStatus.NA && l.status != LetterStatus.Lock)
+                    return false;
+            }
+            return true;
+        }
+
+
+        if (canLock() && _letter.status==LetterStatus.NA)
         {
             _letter.block.moveable = false;
-            _letter.GetComponent<SpriteRenderer>().color = Color.gray;
-            isLocked = true;
+            _sr.color = Color.gray;
+            _letter.status = LetterStatus.Lock;
         }
-        else if (!isLockWord && isLocked) 
+        else if (!canLock() && _letter.status==LetterStatus.Lock) 
         {
             _letter.block.moveable = true;
-            _letter.GetComponent<SpriteRenderer>().color = Color.white;
-            isLocked = false;
+            _sr.color = Color.white;
+            _letter.status = LetterStatus.NA;
         }
 
 
-        if (_letter.horizontalWord == "KEY" || _letter.verticalWord == "KEY")
-        {
 
-            return;
-        }
         //if (_letter.horizontalWord == "FLY" || _letter.verticalWord == "FLY")
         //{
         //    currentWordStatus = WordStatus.Flying;
