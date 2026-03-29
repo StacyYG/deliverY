@@ -55,7 +55,7 @@ TextureImporter:
   maxTextureSize: 2048
   textureSettings:
     serializedVersion: 2
-    filterMode: 1
+    filterMode: 0
     aniso: 1
     mipBias: 0
     wrapU: 1
@@ -66,7 +66,7 @@ TextureImporter:
   compressionQuality: 50
   spriteMode: 2
   spriteExtrude: 1
-  spriteMeshType: 1
+  spriteMeshType: 0
   alignment: 0
   spritePivot: {x: 0.5, y: 0.5}
   spritePixelsToUnits: 100
@@ -93,7 +93,7 @@ TextureImporter:
     maxTextureSize: 2048
     resizeAlgorithm: 0
     textureFormat: -1
-    textureCompression: 1
+    textureCompression: 0
     compressionQuality: 50
     crunchedCompression: 0
     allowsAlphaSplitting: 0
@@ -134,12 +134,12 @@ TextureImporter:
       name: Wall_rightup_0
       rect:
         serializedVersion: 2
-        x: 29
-        y: 429
-        width: 551
-        height: 151
+        x: 0
+        y: 0
+        width: 136
+        height: 136
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
       outline: []
@@ -156,12 +156,12 @@ TextureImporter:
       name: Wall_rightup_1
       rect:
         serializedVersion: 2
-        x: 29
-        y: 289
-        width: 342
-        height: 122
+        x: 6
+        y: 67
+        width: 82
+        height: 31
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
       outline: []
@@ -178,12 +178,12 @@ TextureImporter:
       name: Wall_rightup_2
       rect:
         serializedVersion: 2
-        x: 389
-        y: 289
-        width: 191
-        height: 122
+        x: 90
+        y: 67
+        width: 46
+        height: 31
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
       outline: []
@@ -200,12 +200,12 @@ TextureImporter:
       name: Wall_rightup_3
       rect:
         serializedVersion: 2
-        x: 29
-        y: 149
-        width: 162
-        height: 122
+        x: 6
+        y: 34
+        width: 40
+        height: 31
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
       outline: []
@@ -222,12 +222,12 @@ TextureImporter:
       name: Wall_rightup_4
       rect:
         serializedVersion: 2
-        x: 209
-        y: 149
-        width: 371
-        height: 122
+        x: 48
+        y: 34
+        width: 88
+        height: 31
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
       outline: []
@@ -244,12 +244,12 @@ TextureImporter:
       name: Wall_rightup_5
       rect:
         serializedVersion: 2
-        x: 29
-        y: 9
-        width: 262
-        height: 122
+        x: 6
+        y: 1
+        width: 63
+        height: 31
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
       outline: []
@@ -266,12 +266,12 @@ TextureImporter:
       name: Wall_rightup_6
       rect:
         serializedVersion: 2
-        x: 309
-        y: 9
-        width: 271
-        height: 122
+        x: 71
+        y: 1
+        width: 65
+        height: 31
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
       outline: []
@@ -288,7 +288,7 @@ TextureImporter:
     customData: 
     physicsShape: []
     bones: []
-    spriteID: 
+    spriteID: 3b1e1e1ac10d17d41811669ad7d6a724
     internalID: 0
     vertices: []
     indices: 
